@@ -1,25 +1,27 @@
 package entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import embedded.NameIdentifier;
+
+import javax.persistence.*;
+
 @Entity
 @Table
 public class Employee {
+
     @Id
-    @Column
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "Employee_id")
     private int id;
-    @Column
-    private String name;
-    @Column
+    @Column(name = "Employee_name")
+    private NameIdentifier name;
+    @Column(name = "Employee_address")
     private String address;
-    @Column
+    @Column(name = "Employee_salary")
     private double salary;
 
     public Employee(){}
 
-    public Employee(int id, String name, String address, double salary) {
+    public Employee(int id, NameIdentifier name, String address, double salary) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -34,11 +36,11 @@ public class Employee {
         this.id = id;
     }
 
-    public String getName() {
+    public NameIdentifier getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(NameIdentifier name) {
         this.name = name;
     }
 
