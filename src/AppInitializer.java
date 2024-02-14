@@ -1,103 +1,136 @@
 import config.SessionFactoryConfig;
+import embedded.MobileNumber;
 import embedded.NameIdentifier;
 import entity.Employee;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AppInitializer {
+
     public static void main(String[] args) {
+
         try {
-            //save
 
-            System.out.println("----------------save----------------");
+            //Save
 
+            System.out.println("------------------Save-------------------------");
             Session session = SessionFactoryConfig
                     .getInstance()
                     .getSession();
 
             Transaction transaction = session.beginTransaction();
 
-            Employee employee = new Employee();
+            Employee customer = new Employee();
 
-            employee.setId(1);
+            customer.setId(1);
 
             NameIdentifier nameIdentifier = new NameIdentifier();
 
-            nameIdentifier.setFirstName("kavindu");
-            nameIdentifier.setMiddleName("senesh");
-            nameIdentifier.setLastName("sathsara");
+            nameIdentifier.setFirstName("Kavindu");
+            nameIdentifier.setMiddleName("Senesh");
+            nameIdentifier.setLastName("Sathsara");
 
-            employee.setName(nameIdentifier);
-            employee.setAddress("Tangalle");
-            employee.setSalary(300000);
+            customer.setName(nameIdentifier);
+            customer.setAddress("Tangalle");
+            customer.setSalary(30000);
 
-            session.save(employee);
+            MobileNumber mobileNumber = new MobileNumber();
+
+            mobileNumber.setType("Mobile");
+            mobileNumber.setMoNumber(717055398);
+
+            MobileNumber homeNumber =  new MobileNumber();
+
+            homeNumber.setType("Home");
+            homeNumber.setMoNumber(760500554);
+
+            List<MobileNumber> mobileNumbers =  new ArrayList<>();
+            mobileNumbers.add(mobileNumber);
+            mobileNumbers.add(homeNumber);
+
+            customer.setMobileNumbers(mobileNumbers);
+
+            session.save(customer);
 
             transaction.commit();
 
-            System.out.println("---------------------saved--------------------");
+            System.out.println("------------------Saved-------------------------");
 
             session.close();
 
-            //Get
 
-            // Read
-            System.out.println("-------------------Read--------------------");
+//            //2 Get
+//
+//          System.out.println("------------------Read-------------------------");
+//
+//            Session getSession = SessionFactoryConfig
+//                    .getInstance().getSession();
+//
+//            Customer existingCustomer =
+//                    getSession
+//                            .get(Customer.class,1);
+//
+//            System.out.println("Existing customer :"+existingCustomer);
+//
+//            System.out.println("------------------Read Completed-------------------------");
+//
+//            getSession.close();
 
-            Session getSession = SessionFactoryConfig
-                    .getInstance()
-                    .getSession();
-
-            Employee existingEmployee = getSession.get(Employee.class, 1);
-
-            System.out.println("Existing employee : " + existingEmployee);
-
-            System.out.println("----------------------Read Complete---------------------");
-
-            getSession.close();
-
-
+//
 //            //Update
 //
-//            System.out.println("---------------------Update-----------------------");
+//            System.out.println("------------------Update-------------------------");
 //
+//            Session updateSession =
+//                    SessionFactoryConfig
+//                            .getInstance().getSession();
 //
-//            Session updateSession = SessionFactoryConfig.getInstance().getSession();
 //            Transaction updateTransaction =
-//                   updateSession.beginTransaction();
+//                    updateSession.beginTransaction();
 //
-//            Employee existingEmp = updateSession.get(Employee.class, 1);
+//            Customer existingCus = updateSession.get(Customer.class,1);
 //
-//            existingEmp.setAddress("Colombo");
-//            updateSession.update(existingEmp);
+//            existingCus.setAddress("Colombo");
+//            updateSession.update(existingCus);
 //
 //            updateTransaction.commit();
 //
-//            System.out.println("-------------------updated-----------------------");
+//            System.out.println("------------------Updated-------------------------");
 //
 //            updateSession.close();
 //
+//
 //            //Delete
 //
-//            System.out.println("------------------------------Delete------------------------");
+//            System.out.println("------------------Delete-------------------------");
 //
-//            Session deleteSession = SessionFactoryConfig.getInstance().getSession();
+//            Session deleteSession =
+//                    SessionFactoryConfig.getInstance().getSession();
 //
-//            Transaction deleteTransaction = deleteSession.beginTransaction();
+//            Transaction deleteTransaction = deleteSession
+//                    .beginTransaction();
 //
-//            Employee deleteEmp = deleteSession.get(Employee.class, 1);
+//            Customer deleteCus = deleteSession.get(Customer.class,1);
 //
-//            deleteSession.delete(deleteEmp);
+//            deleteSession.delete(deleteCus);
 //
 //            deleteTransaction.commit();
 //
-//            System.out.println("---------------------Delete--------------------");
+//            System.out.println("------------------Deleted-------------------------");
 //
 //            deleteSession.close();
 
-        } catch (HibernateException e) {
-            throw new RuntimeException(e);
+
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            System.out.println("Error :"+ e.getMessage());
+
         }
     }
 }

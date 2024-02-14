@@ -1,13 +1,15 @@
 package entity;
 
+import embedded.MobileNumber;
 import embedded.NameIdentifier;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
 public class Employee {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Employee_id")
@@ -19,13 +21,29 @@ public class Employee {
     @Column(name = "Employee_salary")
     private double salary;
 
-    public Employee(){}
+    @ElementCollection
+    @CollectionTable(
+            name = "Employee_mobile_nos",
+            joinColumns = @JoinColumn(name = "Employee_id")
+        )
+    private List<MobileNumber> mobileNumbers = new ArrayList<>();
 
-    public Employee(int id, NameIdentifier name, String address, double salary) {
+    public List<MobileNumber> getMobileNumbers(){
+        return mobileNumbers;
+    }
+
+    public void setMobileNumbers(List<MobileNumber> mobileNumbers) {
+        this.mobileNumbers = mobileNumbers;
+    }
+
+    public Employee() {}
+
+    public Employee(int id, NameIdentifier name, String address, double salary, List<MobileNumber> mobileNumbers) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.salary = salary;
+        this.mobileNumbers = mobileNumbers;
     }
 
     public int getId() {
@@ -67,6 +85,7 @@ public class Employee {
                 ", name=" + name +
                 ", address='" + address + '\'' +
                 ", salary=" + salary +
+                ", mobileNumbers=" + mobileNumbers +
                 '}';
     }
 }
